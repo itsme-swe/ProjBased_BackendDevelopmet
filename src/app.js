@@ -18,5 +18,10 @@ app.use(express.static("public"))       // Use to keep assets like pdf files, im
 
 app.use(cookieParser())
 
+// Importing routes after the middleware config
+import userRouter from "./routes/user.routes.js"
+
+// routes declaration
+app.use("/users"/userRouter)
 
 export { app }
