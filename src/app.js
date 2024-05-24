@@ -21,7 +21,7 @@ app.use(cookieParser())
 // Importing routes after the middleware config
 import userRouter from "./routes/user.routes.js"
 
-// routes declaration
-app.use("/users"/userRouter)
+// Here we are doing declaration of routes and remember to define the routes with "api" keyword and te version number 
+app.use("/api/v1/users", userRouter)
 
 export { app }
