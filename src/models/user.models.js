@@ -52,11 +52,11 @@ const userSchema = new Schema(
     },{timestamps: true})
 
 // pre hooks
-userSchema.pre('save', function(next){
+userSchema.pre('save', async function(next){
 
     if (!this.isModified('password')) return next()     // condition to check if password field is not modified then pass to the next middeware if modified then execute the below encryption 
 
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
