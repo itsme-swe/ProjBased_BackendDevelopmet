@@ -1,4 +1,4 @@
-import mongoose, {Schema, Types} from "mongoose";      // Here we are destructuring Schema from mongoose.Schema
+import mongoose, {Schema} from "mongoose";      // Here we are destructuring Schema from mongoose.Schema
 
 import jwt from "jsonwebtoken"
 
@@ -61,8 +61,10 @@ userSchema.pre('save', async function(next){
 })
 
 // Here we are creating our own custom method by using bcrypt library
+
 userSchema.methods.isPasswordCorrect = async function(password){
     // Writing condition to check the password entered by the user and the password stored in our database are same or not with the help of bcrypt library
+
     return await bcrypt.compare(password, this.password)     // Here "this.password" is encrypted password one stored in our db
 } 
 /*🔸Overall this upper custom function will return boolean value */
@@ -74,9 +76,9 @@ userSchema.methods.generateAccessToken = function() {
             _id: this._id,
             email: this.email,
             username: this.username,
-            fulllname: this.fulllName
+            fullName: this.fullName
         },
-        process.env.ACCESS_TOKEN_SECERT,
+        process.env.ACCESS_TOKEN_SECRET,
         {
             expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
@@ -88,7 +90,7 @@ userSchema.methods.generateRefreshToken = function() {
         {
             _id: this.id
         },
-        process.env.REFRESH_TOKEN_SECERET,
+        process.env.REFRESH_TOKEN_SECRET,
         {
             expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
