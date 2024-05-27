@@ -1,15 +1,18 @@
 import {asyncHandler} from "../utils/asyncHandler.js"
+
 import {ApiError} from "../utils/ApiError.js"
+
 import {User} from "../models/user.models.js"
+
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
+
 import { ApiResponse } from "../utils/ApiResponse.js"
 
 
 // Here asyncHandler() is our "Higher order function" and higher order function takes another function as parameter
-const registerUser = asyncHandler(async(req, res) => {
+const registerUser = asyncHandler(async(req, res, next) => {
    
     const {fullName, email, username, password} = req.body
-    // console.log('email: ', email);
 
     // Creating condition to validate that there are no empty properties in the request body.
     if (
@@ -27,26 +30,27 @@ const registerUser = asyncHandler(async(req, res) => {
         throw new ApiError(409, "User already exists")
     }
 
-    const avatarLocalPath = req.files?.avatar[0]?.path;
+    const avatarLocalPath =  req.files?.avatar[0]?.path;
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
-
- 
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is required")
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    console.log("Avatar local path:", avatarLocalPath);
+    console.log("Cover image local path:", coverImageLocalPath);
+
+    const newAvatar = await uploadOnCloudinary(avatarLocalPath)
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
-    if (!avatar) {
-        throw new ApiError(400, "Avatar file is required")
+    if (!newAvatar) {
+        throw new ApiError(400, "New Avatar file is required")
     }
 
     // Now creating user
     const user = await User.create({
         fullName,
-        avatar: avatar.url,
+        avatar: newAvatar.url,
         coverImage: coverImage?.url || "",
         email,
         password,
@@ -66,7 +70,8 @@ const registerUser = asyncHandler(async(req, res) => {
    // Finally sendig response to the user
    return res.status(201).json(
     new ApiResponse(200, createdUser, "User registered successfuly")
-   )
+   );
+   
 })
 
 export {registerUser}
