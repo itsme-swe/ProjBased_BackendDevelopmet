@@ -10,9 +10,9 @@ app.use(cors({
     credentials: true
 }))
 
-app.use(express.json({limit: "60kb"}))                              // configuring .json() middleware and setting limit to accept json format files
+app.use(express.json({limit: "16kb"}))                              // configuring .json() middleware and setting limit to accept json format files
 
-app.use(express.urlencoded({extended: true, limit: "60kb"}))       // configuring for URL middleware to accept data coming from URL
+app.use(express.urlencoded({extended: true, limit: "16kb"}))       // configuring for URL middleware to accept data coming from URL
 
 app.use(express.static("public"))       // Use to keep assets like pdf files, images etc in our local server so we create one folder by the name of public
 

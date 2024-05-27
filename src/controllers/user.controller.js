@@ -1,14 +1,9 @@
-import { asyncHandler } from "../utils/asyncHandler.js"
-
+import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/ApiError.js"
-
-import { User } from "../models/user.models.js"
-
-import { uploadOnCloudinary } from "../utils/cloudinary.js"
-
+import {User} from "../models/user.models.js"
+import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 
-import mongoose from "mongoose"
 
 // Here asyncHandler() is our "Higher order function" and higher order function takes another function as parameter
 const registerUser = asyncHandler(async(req, res) => {

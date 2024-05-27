@@ -54,7 +54,7 @@ const userSchema = new Schema(
 // pre hooks
 userSchema.pre('save', async function(next){
 
-    if (!this.isModified('password')) return next()     // condition to check if password field is not modified then pass to the next middeware if modified then execute the below encryption 
+    if (!this.isModified('password')) return next() // condition to check if password field is not modified then pass to the next middeware if modified then execute the below encryption 
 
     this.password = await bcrypt.hash(this.password, 10)
     next()
@@ -97,4 +97,4 @@ userSchema.methods.generateRefreshToken = function() {
     )
 }
 
-export const User = mongoose.model('User', userSchema)
+export const User = mongoose.model("User", userSchema)
